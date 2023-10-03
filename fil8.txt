@@ -1,0 +1,10 @@
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore,
+a technique implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic
+operations, i.e., operations which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that
+display their different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore
+signals were patented in the early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical
+signal. Designs have altered over the intervening years, and colour light signals have replaced semaphore signals in most
+countries, but in a few they remain in use. The first railway semaphore signal was erected by Charles Hutton Gregory on the
+London and Croydon Railway (later the London Brighton and South Coast Railway) at New Cross, southeast London, about 1842
+on the newly enlarged layout also accommodating the South Eastern Railway.

@@ -1,0 +1,10 @@
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed
+(when the count is increased from 0). If one of the rooms was released, but there are several students waiting, then any
+method can be used to select the one who will occupy the room (like FIFO or randomly picking one). And of course, a student
+needs to inform the clerk about releasing their room only after really leaving it, otherwise, there can be an awkward
+situation when such student is in the process of leaving the room (they are packing their textbooks, etc.) and another
+student enters the room before they leave it. When used to control access to a pool of resources, a semaphore tracks only
+how many resources are free; it does not keep track of which of the resources are free. Some other mechanism (possibly
+involving more semaphores) may be required to select a particular free resource. The paradigm is especially powerful
+because the semaphore count may serve as a useful trigger for a number of different actions. The librarian above may turn
+the lights off in the study hall when there are no students remaining, or may place a sign that says the rooms are very

@@ -1,0 +1,1085 @@
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.
+In the simplest implementation, the clerk at the front desk knows only the number of free rooms available, which they only know correctly
+if all of the students actually use their room while they have signed up for them and return them when they're done. When a student
+requests a room, the clerk decreases this number. When a student releases a room, the clerk increases this number. The room can be used
+for as long as desired, and so it is not possible to book rooms ahead of time.
+In this scenario the front desk count-holder represents a counting semaphore, the rooms are the resource, and the students represent
+processes/threads. The value of the semaphore in this scenario is initially 10, with all rooms empty. When a student requests a room,
+they are granted access, and the value of the semaphore is changed to 9. After the next student comes, it drops to 8, then 7 and so on.
+If someone requests a room and the current value of the semaphore is 0,[3] they are forced to wait until a room is freed (when the count
+is increased from 0). If one of the rooms was released, but there are several students waiting, then any method can be used to select the
+one who will occupy the room (like FIFO or randomly picking one). And of course, a student needs to inform the clerk about releasing their
+room only after really leaving it, otherwise, there can be an awkward situation when such student is in the process of leaving the room
+(they are packing their textbooks, etc.) and another student enters the room before they leave it.
+When used to control access to a pool of resources, a semaphore tracks only how many resources are free; it does not keep track of which
+of the resources are free. Some other mechanism (possibly involving more semaphores) may be required to select a particular free resource.
+The paradigm is especially powerful because the semaphore count may serve as a useful trigger for a number of different actions.
+The librarian above may turn the lights off in the study hall when there are no students remaining, or may place a sign that says the
+rooms are very busy when most of the rooms are occupied.
+The success of the protocol requires applications to follow it correctly. Fairness and safety are likely to be compromised
+(which practically means a program may behave slowly, act erratically, hang or crash) if even a single process acts incorrectly. This
+includes:
+requesting a resource and forgetting to release it;
+releasing a resource that was never requested;
+holding a resource for a long time without needing it;
+using a resource without requesting it first (or after releasing it).
+Even if all processes follow these rules, multi-resource deadlock may still occur when there are different resources managed by different
+semaphores and when processes need to use more than one resource at a time, as illustrated by the dining philosophers problem.
+Counting semaphores are equipped with two operations, historically denoted as P and V (see § Operation names for alternative names).
+Operation V increments the semaphore S, and operation P decrements it.
+The value of the semaphore S is the number of units of the resource that are currently available. The P operation wastes time or sleeps
+until a resource protected by the semaphore becomes available, at which time the resource is immediately claimed. The V operation is the
+inverse: it makes a resource available again after the process has finished using it. One important property of semaphore S is that its
+value cannot be changed except by using the V and P operations.
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process executing wait
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the resource.
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative (meaning there are
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is incremented. This means
+that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore, a technique
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations, i.e., operations
+which appear indivisible from the perspective of other processes:
+Railway semaphore signal is one of the earliest forms of fixed railway signals. This semaphore system involves signals that display their
+different indications to train drivers by changing the angle of inclination of a pivoted 'arm'. Semaphore signals were patented in the
+early 1840s by Joseph James Stevens, and soon became the most widely used form of mechanical signal. Designs have altered over the
+intervening years, and colour light signals have replaced semaphore signals in most countries, but in a few they remain in use.
+The first railway semaphore signal was erected by Charles Hutton Gregory on the London and Croydon Railway (later the London Brighton and
+South Coast Railway) at New Cross, southeast London, about 1842 on the newly enlarged layout also accommodating the South Eastern Railway.
+John Urpeth Rastrick claimed to have suggested the idea to Hutton Gregory.
+Worldwide, the first semaphore signals were controlled by levers situated at the signals. Some early signals protruded from the roof of
+the controlling signal box. Later, remote operation was effected by levers connected to the signal by single wires (UK), pairs of wires
+(Continental Europe), or pipes supported on rollers (US). The levers were grouped together in a building known as a "signal box"
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station areas were commonly
+routed beneath platform faces just above rail level. The operation of a single signal wire would cause some of the adjacent wires to
+'jangle', and this noise was one of the many characteristic sounds of railway travel until the gradual introduction of colour-light
+signals from the mid 20th century.
+Semaphore signals may also be operated by electric motors, hydraulically or pneumatically, allowing them to be located further from the
+controlling signal box. In some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this requires the
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the widespread switch to
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore signal is actually to
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal could fail to
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding all other types
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the U.S. After 1908
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model 2A mechanisms
+manual semaphores and earlier electric disc signals quickly began to disappear.
+In computer science, a semaphore is a variable or abstract data type used to control access to a common resource by multiple threads
+and avoid critical section problems in a concurrent system such as a multitasking operating system. Semaphores are a type of
+synchronization primitive. A trivial semaphore is a plain variable that is changed (for example, incremented or decremented, or toggled)
+depending on programmer-defined conditions.
+A useful way to think of a semaphore as used in a real-world system is as a record of how many units of a particular resource are
+available, coupled with operations to adjust that record safely (i.e., to avoid race conditions) as units are acquired or become free,
+and, if necessary, wait until a unit of the resource becomes available.
+Semaphores are a useful tool in the prevention of race conditions; however, their use is not a guarantee that a program is free from these
+problems. Semaphores which allow an arbitrary resource count are called counting semaphores, while semaphores which are restricted to the
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his team were
+developing an operating system for the Electrologica X8. That system eventually became known as THE multiprogramming system.
+Suppose a library has 10 identical study rooms, to be used by one student at a time. Students must request a room from the front desk if
+they wish to use a study room. If no rooms are free, students wait at the desk until someone relinquishes a room. When a student has
+finished using a room, the student must return to the desk and indicate that one room has become free.

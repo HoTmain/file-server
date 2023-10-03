@@ -1,0 +1,10 @@
+is lost or a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores
+spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons for the
+upper quadrant signals. (The purpose of the balance weight often found on a lever lower down the post of a semaphore
+ensure the signal wire returns to its normal position when the controlling lever is put back. Otherwise, again, the signal
+return to danger. These counterweights are used just as commonly on upper- as on lower-quadrant signals.)
+The semaphore was afterwards rapidly adopted as fixed manual signals throughout Britain and the United States superseding
+in most uses by 1870. Such signals as electrically operated automatic and interlocking signals were widely adopted in the
+with the advent of the Union Switch & Signals "Stye's "B" & "S" and the General Railway Signal Company's universal Model
+manual semaphores and earlier electric disc signals quickly began to disappear. In computer science, a semaphore is a
+variable or abstract data type used to control access to a common resource by multiple threads

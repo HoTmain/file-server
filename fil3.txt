@@ -1,0 +1,10 @@
+values 0 and 1 (or locked/unlocked, unavailable/available) are called binary semaphores and are used to implement locks.
+The semaphore concept was invented by Dutch computer scientist Edsger Dijkstra in 1962 or 1963,[2] when Dijkstra and his
+team were developing an operating system for the Electrologica X8. That system eventually became known as THE
+multiprogramming system. Suppose a library has 10 identical study rooms, to be used by one student at a time. Students
+must request a room from the front desk if they wish to use a study room. If no rooms are free, students wait at the desk
+until someone relinquishes a room. When a student has finished using a room, the student must return to the desk and
+indicate that one room has become free. In the simplest implementation, the clerk at the front desk knows only the number
+of free rooms available, which they only know correctly if all of the students actually use their room while they have
+signed up for them and return them when they're done. When a student requests a room, the clerk decreases this number.
+When a student releases a room, the clerk increases this number. The room can be used for as long as desired, and so it is

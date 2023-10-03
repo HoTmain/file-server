@@ -1,0 +1,10 @@
+A simple way to understand wait (P) and signal (V) operations is:
+wait: Decrements the value of semaphore variable by 1. If the new value of the semaphore variable is negative, the process
+is blocked (i.e., added to the semaphore's queue). Otherwise, the process continues execution, having used a unit of the
+signal: Increments the value of semaphore variable by 1. After the increment, if the pre-increment value was negative
+processes waiting for a resource), it transfers a blocked process from the semaphore's waiting queue to the ready queue.
+Many operating systems provide efficient semaphore primitives that unblock a waiting process when the semaphore is
+incremented. This means that processes do not waste time checking the semaphore value unnecessarily.
+The counting semaphore concept can be extended with the ability to claim or return more than one "unit" from the semaphore,
+implemented in Unix. The modified V and P operations are as follows, using square brackets to indicate atomic operations
+which appear indivisible from the perspective of other processes:
