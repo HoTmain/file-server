@@ -1,0 +1,10 @@
+(UK and Australia) or "interlocking tower" (US). In the UK multiple signal wires were grouped together, and in station
+areas were commonly routed beneath platform faces just above rail level. The operation of a single signal wire would cause
+some of the adjacent wires to 'jangle', and this noise was one of the many characteristic sounds of railway travel until
+the gradual introduction of colour-light signals from the mid 20th century. Semaphore signals may also be operated by
+electric motors, hydraulically or pneumatically, allowing them to be located further from the controlling signal box. In
+some cases, they can be made to work automatically. The signals are designed to be fail-safe so that if power is lost or
+a linkage is broken, the arm will move by gravity into the horizontal position. For lower quadrant semaphores this
+requires the spectacle case to be sufficiently heavy to ensure the arm rises rather than falls; this is one of the reasons
+for the widespread switch to upper quadrant signals. The purpose of the balance weight often found on a lever lower down
+the post of a semaphore signal is actually to ensure the signal wire returns to its normal position when the controlling
