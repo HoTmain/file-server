@@ -10,6 +10,11 @@ int main(int argc, char* argv[]) {
     int num_clients= atoi(argv[1]);
     int cl_requests= atoi(argv[2]);
     float lambda= atof(argv[3]);    // used for exponential distribution
+    
+    if(num_clients <= 0 || cl_requests <= 0) {
+        printf("Number of clients and requests must be greater than 0\n");
+       	exit(1);
+    }
 
     //  #######  IN CASE OF EXIT_FAILURE  ########
     sem_unlink(SEMCL);
